@@ -2,7 +2,7 @@
   <div id="app">
     <h1>Tic Tac Toe</h1>
     <h2>Player: {{ player }}</h2>
-    <h2>Winner: {{ winner }}</h2>
+    <h2 v-show="winner !== undefined">Winner is Player {{ winner }}</h2>
     <button @click="reset">RESET</button>
     <div class="board">
       <div class="row">
