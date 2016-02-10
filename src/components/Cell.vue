@@ -18,6 +18,7 @@ export default {
   },
   methods: {
     handleClick: function () {
+      // if this cell has no value then set it based on current player move
       if (this.val === undefined && this.active) {
         this.val = this.player
         this.$dispatch('cell-clicked', {n: this.n, val: this.val})

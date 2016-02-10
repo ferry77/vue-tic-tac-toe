@@ -36,12 +36,13 @@ export default {
     return {
       player: 0, // this boolean value represent player turn 0 or 1
       winner: undefined,
-      boardCell: {}
+      boardCell: {} // this state will holds and map each cell value
     }
   },
   methods: {
     handleChildCellClicked: function (data) {
       if (this.winner === undefined) {
+        // single source of truth from child cell value
         this.boardCell[data.n] = data.val
         if (!this.hasWinningCondition()) {
           this.switchPlayer()
