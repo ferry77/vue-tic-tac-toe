@@ -1,12 +1,17 @@
 <template>
-  <div class="cell" v-bind:class="{ 'active': active }" @click="handleClick">
+  <div class="cell" v-bind:class="{ 'active': !winningCondition, 'winning-cell': winningCell }" @click="handleClick">
     {{ val }}
   </div>
 </template>
 
 <script>
 export default {
-  props: ['player', 'n', 'active'],
+  props: ['player', 'n', 'winningCondition'],
+  computed: {
+    winningCell () {
+      return (this.winningCondition.indexOf(this.n) !== -1)
+    }
+  },
   created () {
     // listen event from parent
     this.$on('reset', this.reset)
@@ -19,7 +24,7 @@ export default {
   methods: {
     handleClick: function () {
       // if this cell has no value then set it based on current player move
-      if (this.val === undefined && this.active) {
+      if (this.val === undefined && !this.winningCondition) {
         this.val = this.player
         this.$dispatch('cell-clicked', {n: this.n, val: this.val})
       }
@@ -45,7 +50,9 @@ export default {
     vertical-align: middle;
     font-size: 3em;
     cursor: pointer;
-    background-color: #bdbdbd;
+  }
+  .cell.winning-cell {
+    background-color: #f5564f;
   }
   .cell.active {
     background-color: #ffffff;

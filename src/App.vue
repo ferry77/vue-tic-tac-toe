@@ -1,24 +1,24 @@
 <template>
   <div id="app">
     <h1>Tic Tac Toe</h1>
-    <h2>Player: {{ player }}</h2>
+    <h2 v-show="winner === undefined">Player {{ player }} turn</h2>
     <h2 v-show="winner !== undefined">Winner is Player {{ winner }}</h2>
     <button @click="reset">RESET</button>
     <div class="board">
       <div class="row">
-        <cell n="1" :player="player" :active="winner === undefined" @cell-clicked="handleChildCellClicked"></cell>
-        <cell n="2" :player="player" :active="winner === undefined" @cell-clicked="handleChildCellClicked"></cell>
-        <cell n="3" :player="player" :active="winner === undefined" @cell-clicked="handleChildCellClicked"></cell>
+        <cell n="1" :player="player" :winning-condition="winningCondition" @cell-clicked="handleChildCellClicked"></cell>
+        <cell n="2" :player="player" :winning-condition="winningCondition" @cell-clicked="handleChildCellClicked"></cell>
+        <cell n="3" :player="player" :winning-condition="winningCondition" @cell-clicked="handleChildCellClicked"></cell>
       </div>
       <div class="row">
-        <cell n="4" :player="player" :active="winner === undefined" @cell-clicked="handleChildCellClicked"></cell>
-        <cell n="5" :player="player" :active="winner === undefined" @cell-clicked="handleChildCellClicked"></cell>
-        <cell n="6" :player="player" :active="winner === undefined" @cell-clicked="handleChildCellClicked"></cell>
+        <cell n="4" :player="player" :winning-condition="winningCondition" @cell-clicked="handleChildCellClicked"></cell>
+        <cell n="5" :player="player" :winning-condition="winningCondition" @cell-clicked="handleChildCellClicked"></cell>
+        <cell n="6" :player="player" :winning-condition="winningCondition" @cell-clicked="handleChildCellClicked"></cell>
       </div>
       <div class="row">
-        <cell n="7" :player="player" :active="winner === undefined" @cell-clicked="handleChildCellClicked"></cell>
-        <cell n="8" :player="player" :active="winner === undefined" @cell-clicked="handleChildCellClicked"></cell>
-        <cell n="9" :player="player" :active="winner === undefined" @cell-clicked="handleChildCellClicked"></cell>
+        <cell n="7" :player="player" :winning-condition="winningCondition" @cell-clicked="handleChildCellClicked"></cell>
+        <cell n="8" :player="player" :winning-condition="winningCondition" @cell-clicked="handleChildCellClicked"></cell>
+        <cell n="9" :player="player" :winning-condition="winningCondition" @cell-clicked="handleChildCellClicked"></cell>
       </div>
     </div>
   </div>
@@ -36,6 +36,7 @@ export default {
     return {
       player: 0, // this boolean value represent player turn 0 or 1
       winner: undefined,
+      winningCondition: '',
       boardCell: {} // this state will holds and map each cell value
     }
   },
@@ -56,12 +57,12 @@ export default {
     },
     hasWinningCondition () {
       var self = this
-      return winningConditions.some(function (condition) {
+      self.winningCondition = winningConditions.filter(function (condition) {
         return (Number(self.boardCell[condition[0]]) === Number(self.boardCell[condition[1]]) && Number(self.boardCell[condition[1]]) === Number(self.boardCell[condition[2]]))
-      })
+      }).pop()
+      return self.winningCondition
     },
     reset () {
-      console.log('here')
       this.winner = undefined
       this.player = 0
       this.boardCell = {}
