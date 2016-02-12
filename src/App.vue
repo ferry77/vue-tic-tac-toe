@@ -63,7 +63,7 @@ export default {
       return self.winningCondition
     },
     reset () {
-      this.winner = undefined
+      this.winner = this.winningCondition = undefined
       this.player = 0
       this.boardCell = {}
       this.$broadcast('reset')
